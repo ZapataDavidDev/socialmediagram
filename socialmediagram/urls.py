@@ -25,6 +25,8 @@ from django.urls import path, include
 from socialmediagram import views as local_views
 from posts import views as posts_views
 from users import views as users_views
+from . import views_test_connectivity
+
 
 
 urlpatterns = [
@@ -35,6 +37,18 @@ urlpatterns = [
     path('sorted/', local_views.sort_integers, name = 'sort'),
     path('hi/<str:name>/<str:equipo>/', local_views.say_hi, name='hi'),
     
+    # Endpoints de prueba de seguridad para ConnectionServer
+    path('test/status/<int:code>', views_test_connectivity.test_status, name='test_status'),
+    path('test/slow', views_test_connectivity.test_slow, name='test_slow'),
+    path('test/fast', views_test_connectivity.test_fast, name='test_fast'),
+    path('test/large', views_test_connectivity.test_large, name='test_large'),
+    path('test/content_type', views_test_connectivity.test_content_type, name='test_content_type'),
+    path('test/chunked', views_test_connectivity.test_chunked, name='test_chunked'),
+    path('test/auth/basic', views_test_connectivity.test_basic_auth, name='test_basic_auth'),
+    path('test/redirect', views_test_connectivity.test_redirect, name='test_redirect'),
+    path('test/echo', views_test_connectivity.test_echo, name='test_echo'),
+    path('test/json', views_test_connectivity.test_json, name='test_json'),
+    path('test/timeout', views_test_connectivity.test_timeout, name='test_timeout'),
     
     path('', include(('posts.urls', 'posts'), namespace='posts')),
     path('users/', include(('users.urls', 'users'), namespace='users')),
