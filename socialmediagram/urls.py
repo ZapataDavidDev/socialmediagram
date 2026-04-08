@@ -37,19 +37,52 @@ urlpatterns = [
     path('sorted/', local_views.sort_integers, name = 'sort'),
     path('hi/<str:name>/<str:equipo>/', local_views.say_hi, name='hi'),
     
-    # Endpoints de prueba de seguridad para ConnectionServer
-    path('test/status/<int:code>', views_test_connectivity.test_status, name='test_status'),
-    path('test/slow', views_test_connectivity.test_slow, name='test_slow'),
-    path('test/fast', views_test_connectivity.test_fast, name='test_fast'),
-    path('test/large', views_test_connectivity.test_large, name='test_large'),
-    path('test/content_type', views_test_connectivity.test_content_type, name='test_content_type'),
-    path('test/chunked', views_test_connectivity.test_chunked, name='test_chunked'),
-    path('test/auth/basic', views_test_connectivity.test_basic_auth, name='test_basic_auth'),
-    path('test/redirect', views_test_connectivity.test_redirect, name='test_redirect'),
-    path('test/echo', views_test_connectivity.test_echo, name='test_echo'),
-    path('test/json', views_test_connectivity.test_json, name='test_json'),
-    path('test/timeout', views_test_connectivity.test_timeout, name='test_timeout'),
+    # Health Check
+    path('test/health', views_test_connectivity.test_health_check, name='test_health'),
     
+    # === ENDPOINTS SEGUROS ===
+    path('test/safe/json', views_test_connectivity.test_safe_json, name='test_safe_json'),
+    path('test/safe/html', views_test_connectivity.test_safe_html, name='test_safe_html'),
+    path('test/safe/xml', views_test_connectivity.test_safe_xml, name='test_safe_xml'),
+    path('test/safe/text', views_test_connectivity.test_safe_text, name='test_safe_text'),
+    path('test/safe/large-json', views_test_connectivity.test_safe_large_json, name='test_safe_large_json'),
+    
+    # === ENDPOINTS DE AUTENTICACIÓN ===
+    path('test/auth/basic', views_test_connectivity.test_basic_auth, name='test_basic_auth'),
+    path('test/auth/bearer', views_test_connectivity.test_bearer_token, name='test_bearer_token'),
+    
+    # === ENDPOINTS MALICIOSOS - MALWARE ===
+    path('test/malware/executable', views_test_connectivity.test_malware_executable, name='test_malware_exe'),
+    path('test/malware/shellscript', views_test_connectivity.test_malware_shellscript, name='test_malware_sh'),
+    path('test/malware/zip', views_test_connectivity.test_malware_zip, name='test_malware_zip'),
+    path('test/malware/dll', views_test_connectivity.test_malware_dll, name='test_malware_dll'),
+    path('test/malware/octet-stream', views_test_connectivity.test_malware_octet_stream, name='test_malware_octet'),
+    
+    # === ENDPOINTS DE DOS ===
+    path('test/dos/large-response', views_test_connectivity.test_dos_large_response, name='test_dos_large'),
+    path('test/dos/slow-response', views_test_connectivity.test_dos_slow_response, name='test_dos_slow'),
+    path('test/dos/fast-anomaly', views_test_connectivity.test_dos_fast_anomaly, name='test_dos_fast'),
+    path('test/dos/infinite-stream', views_test_connectivity.test_dos_infinite_stream, name='test_dos_infinite'),
+    
+    # === ENDPOINTS DE CONTENT-TYPE NO PERMITIDO ===
+    path('test/disallowed/pdf', views_test_connectivity.test_disallowed_pdf, name='test_disallowed_pdf'),
+    path('test/disallowed/word', views_test_connectivity.test_disallowed_word, name='test_disallowed_word'),
+    path('test/disallowed/image', views_test_connectivity.test_disallowed_image, name='test_disallowed_image'),
+    
+    # === ENDPOINTS DE EXTENSIONES PELIGROSAS ===
+    path('test/dangerous/file.exe', views_test_connectivity.test_dangerous_extension_exe, name='test_dangerous_exe'),
+    path('test/dangerous/script.sh', views_test_connectivity.test_dangerous_extension_sh, name='test_dangerous_sh'),
+    path('test/dangerous/library.dll', views_test_connectivity.test_dangerous_extension_dll, name='test_dangerous_dll'),
+    
+    # === ENDPOINTS DE VULNERABILIDAD ===
+    path('test/evil/capture-credentials', views_test_connectivity.test_capture_credentials, name='test_capture_creds'),
+    path('test/evil/clear-log', views_test_connectivity.clear_stolen_credentials_log, name='test_clear_log'),
+    
+    # === ENDPOINTS ADICIONALES ===
+    path('test/redirect', views_test_connectivity.test_redirect, name='test_redirect'),
+    path('test/custom-headers', views_test_connectivity.test_custom_headers, name='test_custom_headers'),
+
+
     path('', include(('posts.urls', 'posts'), namespace='posts')),
     path('users/', include(('users.urls', 'users'), namespace='users')),
 
